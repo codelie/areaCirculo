@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta lang="pt-br">			
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="styleTable.css">
+		<title>Valor de Área do Círculo - Aproximação de Arquimedes por polígonos</title>
+	</head>
+
+	<body>
+
+		<table>
+			<caption>Valor de Área do Círculo - Aproximação de Arquimedes por polígonos - By Codelie</caption>
+				<thead>
+					<tr>
+						<th scope="col">Lados</th>
+						<th scope="col">Apótema</th>
+						<th scope="col">Medida Lado</th>
+						<th scope="col">Área Polígono Inscrito</th>
+						<th scope="col">Área Polígono Circunscrito</th>
+						<th scope="col">Área Círculo Aproximada</th>
+						<th scope="col">Erro</th>
+					</tr>
+				</thead>
+			<tbody>
+			
+				<script type="application/javascript">
+
+					function calculoArea() {
+						const raio = 2;
+						var k = 0;
+						var n = 0;
+						var numeroLadosPoligonoInicial = 6;
+						var tamanhoLadoPoligonoInicial = raio;
+						var erroMaximo = Math.pow(10,-23); 
+						var erroInicial = 0.5;
+						var areaPoligonoExterno = 0;
+						var areaPoligonoInterno = 0;
+						var diametro = 0;
+						var apotema = 0 ;
+						var valorAproximadoArea = 0 ;
+
+						while ( erroInicial > erroMaximo ) {
+						
+							n = numeroLadosPoligonoInicial * Math.pow(2,k);
+							
+							apotema = Math.sqrt (  Math.pow(raio,2) - Math.pow(tamanhoLadoPoligonoInicial/2,2) );
+							
+							areaPoligonoInterno = n * (tamanhoLadoPoligonoInicial * apotema)/2;	
+							
+							areaPoligonoExterno = areaPoligonoInterno * Math.pow(raio/apotema,2);
+							
+							valorAproximadoArea = (( areaPoligonoExterno + areaPoligonoInterno )/2); 
+							
+							erroInicial = (areaPoligonoExterno - areaPoligonoInterno)/2;
+
+							var tabela = mostraValores(n,apotema,tamanhoLadoPoligonoInicial,areaPoligonoInterno,areaPoligonoExterno,valorAproximadoArea,erroInicial);
+							document.write(tabela);
+							
+							tamanhoLadoPoligonoInicial = Math.sqrt( Math.pow(raio - apotema,2) + Math.pow(tamanhoLadoPoligonoInicial/2,2) );	
+							
+							k = k + 1;
+						}
+						
+						return valorAproximadoArea;
+					}
+
+					function mostraValores(nlados,apotema,tamLados,periInterno,periExterno,valorPI,erro) {
+						let linha = '<tr>';
+						let celula1 = '<td>'+nlados +'</td>';
+						let celula2 = '<td>'+apotema +'</td>';
+						let celula3 = '<td>'+tamLados +'</td>';
+						let celula4 = '<td>'+periInterno +'</td>';
+						let celula5 = '<td>'+periExterno +'</td>';
+						let celula6 = '<td>'+valorPI +'</td>';
+						let celula7 = '<td>'+erro +'</td>';
+						let fimLinha = '</tr>';
+						
+						auxiliar = linha+celula1+celula2+celula3+celula4+celula5+celula6+celula7+fimLinha;
+						return auxiliar;
+					}
+
+					calculoArea();
+				</script>
+
+			</tbody>
+			<tfoot>
+				<tr>
+				  <th scope="row" colspan="2"></th>
+				  <td colspan="2">https://github.com/codelie/areaCirculo</td>
+				</tr>
+			</tfoot>
+		</table>
+
+	</body>
+</html>
